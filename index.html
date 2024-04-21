@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .h1{
+            background-color: darkslategrey ;
+            color: whitesmoke;
+            text-align: center;
+        }
+        .body{
+            margin:auto;
+            text-align: center;
+        }
+        .text{
+            width: 400px;
+        }
+        .redact{
+            width: 400px;
+            background-color: black;
+            color: white;
+        }
+        .reset{
+            color: brown;
+            width: 400px;
+        }
+        .h2{
+            color: darkblue;
+        }
+        .p{
+            color: blueviolet;
+        }
+        
+    </style>
+
+</head>
+<body class="body">
+    <div class="my h1"> <h1>MY REDACTER WEB APP!  </h1>
+         <p>..helps users scramble some words contained in the main content..</p>
+    </div>
+<form action="index.js" method="get">
+
+        <label for="content">Enter your Content:</label><br>
+        <input type="text" class ="text" id="content" name="content"><br><br>
+    
+        <label for="Words to be redacted (separated by spaces):">Words to be redacted (separated by spaces):</label><br>
+        <input type="text" class= "text" id="words" name="words"><br><br>
+                       
+        <label for="Choose a replacement:">Choose a replacement:</label><br>
+            <select name="redact" class="text"id="select">
+                <option value="" disabled="disabled">SELECT</option>
+                <option value="***">Asterisk</option>
+                <option value="---">Dash</option>
+                <option value="???">Question Mark</option>
+                <option value="___">Underscore</option>
+            </select><br></br>
+        <button type="button" class="redact" onclick="myFunction()">REDACT NOW!</button><br></br>
+        <input type="button" class="reset" value="Refresh" onclick="history.go(0)"><br>
+
+</form>
+<div>
+    <h2 class="h2">REDACTED CONTENT: <p id="redactedContent"></p></h2>
+    <h3 class="p">STATUS</h3>
+    <p>..Words scanned: <span id="scanned">0</span>, Words redacted: <span id="scan">0</span>, Characters redacted: <span id="cnt">0</span> Time taken: <span id="time">0.00</span> seconds</p>
+</div>
+<footer>&copy;2024</footer>
+<script>
+    const textArea = document.getElementById('content');
+    textArea.addEventListener('input', calWords);
+
+    const textArea1 = document.getElementById('words');
+    textArea1.addEventListener('input', redact);
+
+    let numOfWords = 0;
+    let x = 0;
+    let count = 0;
+    let fieldValue;
+    let fieldValue1;
+    let fieldValue2;
+    var startTime = performance.now().toFixed(2);
+  function myFunction() {
+    document.getElementById("scanned").innerHTML = numOfWords;
+    document.getElementById("scan").innerHTML = x;
+    document.getElementById("cnt").innerHTML = count;
+    document.getElementById("time").innerHTML = startTime - endTime;
+    
+    var select = document.getElementById('select');
+    var selectedOption = select.options[select.selectedIndex];
+
+    let stri = selectedOption.value
+    for (let i in fieldValue1) {
+        stri = stri
+    }
+    document.getElementById("redactedContent").innerHTML = fieldValue.replace(fieldValue1, stri);
+    console.log(selectedOption.value)
+  }
+  var endTime = performance.now().toFixed(2);
+  function calWords(e) {
+    fieldValue = e.target.value;
+    fieldValue ? (numOfWords = fieldValue.match(/\S+/g).length) : (numOfWords = 0);
+  }
+  function redact(f) {
+    fieldValue1 = f.target.value;
+    fieldValue1 ? (x = fieldValue1.match(/\S+/g).length) : (x = 0);
+    count = fieldValue1.replace(/\s+/g, '').length;
+  }
+  
+</script>
+</body>
+</html>
